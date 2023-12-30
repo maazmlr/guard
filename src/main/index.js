@@ -5,6 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import fs from 'fs/promises'
 import csv from 'csv-parser'
 import j2c from 'json-2-csv'
+import { execFile } from 'child_process'
 
 
 
@@ -88,6 +89,16 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
+app.on('ready', () => {
+  execFile('python', ['hello.py'], (error, stdout, stderr) => {
+    if (error) {
+      console.error('Error executing Python script:', error);
+    } else {
+      console.log('Python output:', stdout);
+    }
+  });
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
